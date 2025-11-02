@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
+import { addToStoredDb } from '../../Utility/addtodb';
 
 const BookDetails = () => {
     const {id} = useParams();
@@ -7,7 +8,12 @@ const BookDetails = () => {
     const data = useLoaderData();
     const singleBook = data.find(book=>book.bookId===bookId);
     console.log(singleBook)
-    const {bookName,author,category,image,publisher,rating,review,tags,yearOfPublishing,totalPages}=singleBook
+    const {bookName,author,category,image,publisher,rating,review,tags,yearOfPublishing,totalPages}=singleBook;
+
+    const handleMarkAsRead = (id) =>{
+        addToStoredDb(id);
+    }
+    
     return (
         <div className="grid lg:grid-cols-2 bg-base-100 shadow-sm p-8 my-10 gap-6">
   <figure className='bg-gray-200 m-auto'>
@@ -26,17 +32,17 @@ const BookDetails = () => {
         {
         tags.map(tag=>(
             <div>
-                <button className='text-green-400 font-bold text-lg'>#{tag}</button>
+                <button className='text-green-400 text-sm font-semibold'>#{tag}</button>
             </div>
         ))
         }
     </div>
-    <p className='text-gray-400 my-2'>Number of pages : {totalPages}</p>
-    <p className='text-gray-400 my-2'>Publisher : {publisher}</p>
-    <p className='text-gray-400 my-2'>Year : {yearOfPublishing}</p>
-    <p className='text-gray-400 my-2'>Rating : {rating}</p>
+    <p className='text-gray-400 my-2'>Number of pages : <span className='font-semibold  text-black'> {totalPages}</span></p>
+    <p className='text-gray-400 my-2'>Publisher : <span className='font-semibold text-black'>{publisher}</span></p>
+    <p className='text-gray-400 my-2'>Year :  <span className='font-semibold  text-black'>{yearOfPublishing}</span></p>
+    <p className='text-gray-400 my-2'>Rating : <span className='font-semibold  text-black'>{rating}</span></p>
     <div className='flex gap-6 my-4'>
-        <button className="btn bg-white text-black border border-black">Read</button>
+        <button onClick={()=>handleMarkAsRead(id)} className="btn bg-white text-black border border-black">Read</button>
     <button className="btn btn-accent text-white">Wishlist</button>
     </div>
   </div>
