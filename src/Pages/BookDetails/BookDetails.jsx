@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
-import { addToStoredDb } from '../../Utility/addtodb';
+import { addToStoredDb, addToWishedDb } from '../../Utility/addtodb';
+import { ToastContainer, toast } from 'react-toastify';
 
 const BookDetails = () => {
     const {id} = useParams();
@@ -11,7 +12,12 @@ const BookDetails = () => {
     const {bookName,author,category,image,publisher,rating,review,tags,yearOfPublishing,totalPages}=singleBook;
 
     const handleMarkAsRead = (id) =>{
+    //    toast("Wow so easy !");
         addToStoredDb(id);
+    }
+    const handleWishList = (id) =>{
+
+        addToWishedDb(id);
     }
     
     return (
@@ -43,7 +49,8 @@ const BookDetails = () => {
     <p className='text-gray-400 my-2'>Rating : <span className='font-semibold  text-black'>{rating}</span></p>
     <div className='flex gap-6 my-4'>
         <button onClick={()=>handleMarkAsRead(id)} className="btn bg-white text-black border border-black">Read</button>
-    <button className="btn btn-accent text-white">Wishlist</button>
+    <button onClick={()=>handleWishList(id)} className="btn btn-accent text-white">Wishlist</button>
+    {/* <ToastContainer /> */}
     </div>
   </div>
 </div>
